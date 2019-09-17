@@ -62,13 +62,9 @@ GitHub](https://help.github.com/en/articles/creating-a-pull-request).
 The PR model that we will use is patterned off of a [common
 industry PR
 model](https://gist.github.com/Chaser324/ce0505fbed06b947d962).
-A copy of that model is included here for quick access. Note
-that you will originally fork this project from the template
-repository through the GitHub classroom, so you're remote
-and origin may be slightly different. I will use the GitHub
-interface to make comments on your work. I will also use a
-pull and test model to verify code aspects of the project.
-
-### Forking PR
-
-https://help.github.com/en/articles/creating-a-pull-request
+Note that you will originally fork this project from the
+template repository through the GitHub classroom, so you're
+remote and origin may be slightly different. I will use the
+GitHub interface to make comments on your work. I will also
+use a pull and test model to verify code aspects of the
+project.
