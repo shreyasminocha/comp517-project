@@ -26,7 +26,7 @@ section is described below.
 
 You will write an introduction with the following key points
 (closely related to the [Seven Key
-Questions](../resources/seven-questions.pdf). These
+Questions](../resources/seven-questions.pdf)). These
 questions mirror the research questions you expect to pull
 out of any original scholarly work.
 
