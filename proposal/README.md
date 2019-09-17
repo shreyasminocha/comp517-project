@@ -11,7 +11,52 @@ and a schedule for meeting these milestones.
 
 ## Assignment Requirements
 
-TBD
+You will write a proposal with the following high level
+section:
+
+1. Introduction
+2. Background
+3. Methods and Plan
+4. Milestones
+
+The proposal should be no longer than 5 pages. Each major
+section is described below.
+
+### Introduction
+
+You will write an introduction with the following key points
+(closely related to the [Seven Key
+Questions](../resources/seven-questions.pdf). These
+questions mirror the research questions you expect to pull
+out of any original scholarly work.
+
+1. Problem + why it's important
+2. Research context or gap in existing approaches
+3. The aim/goal/hypothesis
+4. The proposed solution: how will you solve it?
+5. How you will evaluate it?
+6. Anticipated Contributions
+
+### Background
+
+Detail a few specific elements of the problem that are
+necessary to understand the work. This can be an expanded
+version of the problem as mentioned in the introductor
+paragraph. 
+
+### Proposed Approach and Evaluation Plan
+
+Detail the early design of the solution. Also describe how
+you plan to evaluate it. 
+
+### Expected Resources
+
+What will you need to accomplish your goal?
+
+### Milestones
+
+Itemize a list of deadlines that allow for incremental role
+out of the work.
 
 ## Grading Rubric
 
