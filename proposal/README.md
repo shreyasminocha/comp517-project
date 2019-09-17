@@ -28,11 +28,14 @@ You will write an introduction with the following key points
 (closely related to the [Seven Key
 Questions](../resources/seven-questions.pdf)). These
 questions mirror the research questions you expect to pull
-out of any original scholarly work.
+out of any original scholarly work. Each of these should be
+approximately 1-2 paragraphs. The following sections will
+provide elaboration of these elements.
 
 1. Problem + why it's important
 2. Research context or gap in existing approaches
-3. The aim/goal/hypothesis
+3. The aim/goal/hypothesis (typically a single sentence, but
+   can be longer)
 4. The proposed solution: how will you solve it?
 5. How you will evaluate it?
 6. Anticipated Contributions
@@ -41,7 +44,7 @@ out of any original scholarly work.
 
 Detail a few specific elements of the problem that are
 necessary to understand the work. This can be an expanded
-version of the problem as mentioned in the introductor
+version of the problem as mentioned in the introductory
 paragraph. 
 
 ### Proposed Approach and Evaluation Plan
@@ -104,6 +107,13 @@ included):
 - **Argue**: Overall, we find our approach to significantly
   address the problem without costing too much and can lead
   to future work in securing our systems through ...
+
+The abstract is one of my favorite texts to write because it
+forces me to be focused and to distill the problem to only
+the essential aspects of the work. It is a key writing in
+the development of the scholar as it forces you to take a
+position of authority in the conversation and make a claim
+to contribution.
 
 ### CARS
 
