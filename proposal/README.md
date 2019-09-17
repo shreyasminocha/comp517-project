@@ -86,11 +86,24 @@ while including a plan element.
 
 ### Abstracts
 
-Abstracts should be written for each project. These at a
-later point can be programmatically parsed to generate
-various views of projects: for example, graphing a set of
-projects with there dependencies with mouse over pop ups for
-abstracts.
+Abstracts are tiny texts that allow you to explore the
+entire argument distilled into a few statements. They
+typically have a form like the following (examples
+included):
+
+- **Locate/Context**: C memory safety research provides powerful
+  protection against adversaries
+- **Focus/Condition**: However, all existing approaches use
+  imprecise analysis and thus attacks remain
+- **Main-Claim/Response**: This paper presents an approach that
+  eliminates all imprecision by getting developer
+  annotations. The core insight is...
+- **Report/Methods**: A prototype of the system is produced
+  that obtains zero imprecision with [costs] and addresses
+  all threats.
+- **Argue**: Overall, we find our approach to significantly
+  address the problem without costing too much and can lead
+  to future work in securing our systems through ...
 
 ### CARS
 
