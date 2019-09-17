@@ -16,7 +16,7 @@ TBD
 ## Grading Rubric
 
 We will use the rubric as denoted in
-[rubric.md](../rubric.md). 
+[grading.md](../grading.md). 
 
 ## Notes on Proposal Writing
 
