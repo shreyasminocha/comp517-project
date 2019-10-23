@@ -53,19 +53,14 @@ necessary to understand the work. This can be an expanded
 version of the problem as mentioned in the introductory
 paragraph. 
 
-### Proposed Approach and Evaluation Plan
+### Design (Methods) of the Approach
 
-Detail the early design of the solution. Also describe how
-you plan to evaluate it. 
+Detail the early design of the solution.
 
-### Expected Resources
+### Evaluation
 
-What will you need to accomplish your goal?
-
-### Milestones
-
-Itemize a list of deadlines that allow for incremental role
-out of the work.
+How do you evaluate your hypothesis? What did you do? What
+were the results? 
 
 ## Grading Rubric
 
