@@ -11,7 +11,13 @@ it
 ## Assignment Decriptions
 
 -   *Group Selection and Topic Statement*: select your
-    partner and turn in a topic sentence.
+    partner and turn in a topic sentence as a PR on this
+    README file. The section below "Register Teams" requests
+    team name and member information along with focus
+    statement. A form is presented, fill it in (replacing
+    the bracketed sections in the focus statement and
+    listing info for team name and all members. Delete any
+    unused team member template entries.
 
 -   [Proposal](proposal/README.md) [**DUE:9/17/20**]:
     Written proposal for the project that states the problem
@@ -45,14 +51,38 @@ I have project ideas, but encourage you to come up with a
 research idea by yourself. I encourage you to start this
 process early and to solicit feedback from me.
 
+## Register Teams
+
+Research Focus Statement: 
+
+  - I am studying [topic]
+  - because I want to [what you want to explore]
+  - in order to show my readers [something you want to show
+    them]
+
+Team Name:
+
+Team Member: 
+  - Name:
+  - Rice ID:
+
+Team Member: 
+  - Name:
+  - Rice ID:
+  
+Team Member: 
+  - Name:
+  - Rice ID:
+
 ## Turning in Instructions
 
-For any part of the project you turn in, you must Usenix
-two-column formatting. For an example, feel free to start
-from the latex template latex-template.tgz or you can use
-the latex template that I personally use for my papers (this
-one includes a makefile) latex-example.tgz.  Note: You are
-required to use LaTeX in this class.
+For any part of the project you turn in (aside from focus
+and presentations), you must Usenix two-column formatting.
+For an example, feel free to start from the latex template
+latex-template.tgz or you can use the latex template that I
+personally use for my papers (this one includes a makefile)
+latex-example.tgz.  Note: You are required to use LaTeX in
+this class.
 
 The process to turn in a project will include forking this
 template repository and creating a branch for the specific
