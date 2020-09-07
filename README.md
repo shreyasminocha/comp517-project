@@ -8,15 +8,12 @@ by the end of the semester. You will need to coordinate your
 work using GitHub and make it possible for others to execute
 it
 
-**Time has skewed slightly from original plan, but will only
-pushback for proposal.**
-
 ## Assignment Decriptions
 
 -   *Group Selection and Topic Statement*: select your
     partner and turn in a topic sentence.
 
--   [Proposal](proposal/README.md) [**DUE:9/26/19**]:
+-   [Proposal](proposal/README.md) [**DUE:9/17/20**]:
     Written proposal for the project that states the problem
     you will address, the motivation for why this is an
     interesting problem, the goal of your project, the
@@ -27,16 +24,19 @@ pushback for proposal.**
     out the project and a schedule for meeting these
     milestones.
 
--   Midterm Meetings [**DUE:10/17/19**]: meet with me
+-   Midterm Meetings [**DUE:10/13/20**]: meet with me
     personally to check up on progress for schedule and
     milestones. The goal is to produce a real system, if
     implementing, or initial data for measurement projects.
 
--   Midterm Report [**DUE:10/31/19**]: Preliminary results
+-   Midterm Report [**DUE:11/5/20**]: Preliminary results
     and report, which is close to final report.
 
--   Project Presentation [**DUE:12/3/19**]: Each group will
+-   Project Presentation [**DUE:11/17/20**]: Each group will
     present their work at the end of the semester.
+
+-   Project Showcases [**Week of 12/1/20**]: Each group will
+    present demo [15-30 mins] of their system to professor.
 
 -   Final Project Report [**DUE:12/10/19**]: Final project
     report written in conference style.
