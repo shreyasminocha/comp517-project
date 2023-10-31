@@ -53,26 +53,22 @@ process early and to solicit feedback from me.
 
 ## Register Teams
 
+<!-- TODO: update: -->
 Research Focus Statement: 
 
-  - I am studying [topic]
-  - because I want to [what you want to explore]
-  - in order to show my readers [something you want to show
-    them]
+  - We are studying distributed file systems
+  - because we want to find out how to build large-scale, censorship-resistant file systems that adapt to network conditions
+  - in order to help our readers understand how robust distributed archiving can be achieved.
 
-Team Name:
-
-Team Member: 
-  - Name:
-  - Rice ID:
+Team Name: 🤓
 
 Team Member: 
-  - Name:
-  - Rice ID:
-  
+  - Name: John Cesarz
+  - Rice ID: jac27
+
 Team Member: 
-  - Name:
-  - Rice ID:
+  - Name: Shreyas Minocha
+  - Rice ID: sm159
 
 ## Turning in Instructions
 
