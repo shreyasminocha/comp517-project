@@ -42,7 +42,14 @@ We expect to build a prototype of a distributed file system that performs well u
 % Detail a few specific elements of the problem that are necessary to understand the work.
 % This can be an expanded version of the problem as mentioned in the introductory paragraph.
 
-\lipsum[2]
+Our distributed filesystem will be optimized for archival use.
+In such a system, new data is frequently added, but existing data is rarely modified or deleted.
+For archival systems, data generally needs to be stored for long periods of time, much longer than the lifetime of the typical disk.
+As a result, redundant copies of data need to be maintained in order to support data integrity in the event that a single disk fails.
+
+Making a filesystem distributed also introduces several unique problems.
+Potential consumers of a particular piece of data need to be able to determine which nodes in the network contain that data and request it.
+The lack of a central node also complicates the process for maintaining redundancy in the event of a node's failure.
 
 \section{Methods and Plan}
 
