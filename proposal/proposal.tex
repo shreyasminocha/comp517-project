@@ -12,24 +12,25 @@
 \section{Introduction}
 
 % 1. Problem + why it's important
-There is often a need to archive valuable public data in a manner that is resistant to both active censorship and accidental data loss, owing to either system failure or maintainer neglect.
+There is often a need to publicly archive valuable data in a manner that is resistant to accidental data loss, owing to either system failure or maintainer neglect.
 % TODO: motivate further. tug at heartstrings.
 %
 % 2. Research context or gap in existing approaches
-One common approach to sharing data while resisting censorship is to use peer-to-peer networks like BitTorrent.
-% TODO: insert bittorrent flaws that we hope to deal with
-Additionally, BitTorrent traffic, for example, is pretty distinct and lends itself to rule-based censorship techniques.
+One common approach to sharing data within a community with redundancy is to use peer-to-peer networks like BitTorrent.
+However, BitTorrent-based file sharing suffers from risks of data loss when the number of peers sharing a torrent is low.
+BitTorrent has no mechanism for triggering the replication of ``at-risk files'', instead relying on the users of the network to coordinate this.
+However, in practice, at-risk files are often neglected, until the last few peers sharing the file disappear, at which point the file is lost.
 % TODO: talk about IPFS
 %
 % 3. The aim/goal/hypothesis (typically a single sentence, but can be longer)
-Our goal is to find ways to find ways to make file access more economical and reliable by adapting to the conditions of the file-sharing network.
+Our goal is to find ways to find ways to prevent the problem of data loss in peer-to-peer file sharing networks by cleverly triggering replication of at-risk files.
 %
 % 4. The proposed solution: how will you solve it?
 % TODO
 %
 % 5. How you will evaluate it?
 %
-We will evaluate our solution on the basis of its speed of data transfer, resistance to active censorship attempts, and the longevity of data under simulated scarcity of peers.
+We will evaluate our solution on the basis of its effectiveness at avoiding data loss, the storage overhead introduced from the replication, and the network overhead incurred by transferring file chunks for redundancy.
 %
 % 6. Anticipated Contributions
 We expect to build a prototype of a distributed file system that performs well under these metrics, offering a competitive alternative for long-term sharing and archival of important data.
