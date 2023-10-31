@@ -47,9 +47,18 @@ We expect to build a prototype of a distributed file system that performs well u
 % Detail the early design of the solution.
 % Also describe how you plan to evaluate it.
 
-% What will you need to accomplish your goal?
+We will use a Merkle tree to represent the file system hierarchy.
+This will give us a way to easily achieve content-addressable storage, and to detect changes to the file system.
 
-\lipsum[3]
+% What will you need to accomplish your goal?
+To efficiently detect resources that have a low number of peers, we will have each peer in the network track the number of peers that also have a given resource.
+When this number drops below a threshold, the peer will attempt to trigger network-wide replication of the resource.
+Our system will determine that threshold based on heuristics that factor in the size of the resource, the number of peers in the network, and the number of peers that have the resource.
+We may also combine error-checking codes with the replication as a mechanism for network-wide redundancy.
+Error-checking codes will allow us to avoid data loss more efficiently than replication would.
+
+We will evaluate our system by running it on a network of peers, and simulate peer loss.
+We will use BitTorrent and IPFS as baselines for comparison.
 
 \section{Milestones}
 
