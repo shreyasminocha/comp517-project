@@ -1,0 +1,133 @@
+\documentclass[twocolumn]{article}
+
+\usepackage{hyperref}
+\usepackage{lipsum}
+\usepackage{../../usenix-2020-09}
+
+\microtypecontext{spacing=nonfrench}
+
+\title{Automatically Propagating Resources to Avoid~Data~Loss in Distributed~Filesystems}
+\author{John Cesarz \& Shreyas Minocha}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+% 1. Problem + why it's important
+There is often a need to publicly archive valuable data in a manner that is resistant to accidental data loss, owing to either system failure or maintainer neglect.
+% TODO: motivate further. tug at heartstrings.
+%
+% 2. Research context or gap in existing approaches
+One common approach to sharing data within a community with redundancy is to use peer-to-peer networks like BitTorrent.
+However, BitTorrent-based file sharing suffers from risks of data loss when the number of peers sharing a torrent is low.
+BitTorrent has no mechanism for triggering the replication of ``at-risk files'', instead relying on the users of the network to coordinate this.
+However, in practice, at-risk files are often neglected, until the last few peers sharing the file disappear, at which point the file is lost.
+% TODO: talk about IPFS
+%
+% 3. The aim/goal/hypothesis (typically a single sentence, but can be longer)
+Our goal is to find ways to find ways to prevent the problem of data loss in peer-to-peer file sharing networks by cleverly triggering replication of at-risk files.
+%
+% 4. The proposed solution: how will you solve it?
+% TODO
+%
+% 5. How you will evaluate it?
+%
+We will evaluate our solution on the basis of its effectiveness at avoiding data loss, the storage overhead introduced from the replication, and the network overhead incurred by transferring file chunks for redundancy.
+%
+% 6. Anticipated Contributions
+We built a prototype of a distributed, content-addressible file system.
+%  that performs well under these metrics, offering a competitive alternative for long-term sharing and archival of important data.
+
+\section{Background}
+
+% Detail a few specific elements of the problem that are necessary to understand the work.
+% This can be an expanded version of the problem as mentioned in the introductory paragraph.
+
+Our distributed filesystem will be optimized for archival use.
+In such a system, new data is frequently added, but existing data is rarely modified or deleted.
+For archival systems, data generally needs to be stored for long periods of time, much longer than the lifetime of the typical disk.
+As a result, redundant copies of data need to be maintained in order to support data integrity in the event that a single disk fails.
+
+Making a filesystem distributed also introduces several unique problems.
+Potential consumers of a particular piece of data need to be able to determine which nodes in the network contain that data and request it.
+The lack of a central node also complicates the process for maintaining redundancy in the event of a node's failure.
+
+\section{Methods}
+
+\subsection{Content-Addressed Storage}
+
+We use a Merkle tree to represent the filesystem hierarchy.
+We split file content into ``chunks''—pieces of data up to 4 MiB long.
+Each file is represented as an ordered sequence of chunks.
+Each directory is represented as an ordered sequence of name-object pairs, where the object is the identifier for either a file or a directory.
+We consider files, directories, and chunks to be \textit{resources}.
+Every resource is uniquely identified as an \textit{object}.
+An object is a SHA256 hash of a unique, deterministic serialization of a resource.
+At present, this serialization is done to JSON, but future versions may switch to more efficient formats like protobuf.
+At the moment, all resources on the filesystem are stored in-memory, though in the future this will likely be changed so that resources are stored persistently on a backing filesystem.
+
+\subsection{Networking}
+
+At present, the filesystem allows manually specifying peers by their network addresses on the command line.
+When a peer $X$ successfully connects to another peer $Y$, $Y$ also automatically connects to $X$ and tracks it as one of its peers.
+When a peer $X$ attempts to access a resource that it does not have access to locally, it attempts to fetch it from one of its peers.
+Upon successfully finding a resource by querying another peer, peer $X$ caches said resource, saving a local copy.
+At the moment, networking uses a packet abstraction built on top of TCP, in order to avoid needing to reassemble resources larger than the maximum UDP packet size.
+Future versions may use a UDP-based system instead in order to improve performance. % todo: move to future work?
+
+\subsection{Interface}
+
+Our distributed filesystem is implemented in userspace using FUSE, in order to facilitate ease of testing.
+Our implementation is written in the Rust programming language in order to take advantage of its memory safety and concurrency guarantees.
+The filesystem is organized in such a way that any resource can be accessed directly by SHA256 hash.
+For example, an object whose hash is \texttt{aaa\dots aaa} can be accessed at \texttt{/path/to/mountpoint/aaa\dots aaa}.
+Entries in a directory can also be accessed by name.
+For example, if \texttt{aaa\dots aaa} is a directory containing a file named ``myfile'', ``myfile'' can be accessed at \texttt{/path/to/mountpoint/aaa\dots aaa/myfile}.
+The FUSE mount is read-only, because modifying a file or directory would result in the hash of that resource changing.
+As a result, a set of directories to be added to the filesystem must be specified using a compile-time flag.
+% todo: mention something about how it would eventually be good to allow files/peers to be added after start
+
+% What will you need to accomplish your goal?
+
+\section{Evaluation}
+
+\subsection{Connection Time}
+\subsection{Memory Usage}
+\subsection{Deduplication Extent}
+\subsection{Transfer Speed}
+
+\section{Future Work}
+
+\subsection{Peer Discovery}
+
+One important next step is to implement automatic peer discovery.
+For this, we will use a distributed hash table, similar to existing systems.
+% todo: elaborate on this^^
+% incl citations
+
+\subsection{Resource Peer Tracking}
+
+To efficiently detect resources that have a low number of peers, we will have each peer in the network track the number of peers that also have a given resource.
+When this number drops below a threshold, the peer will attempt to trigger network-wide replication of the resource.
+Our system will determine that threshold based on heuristics that factor in the size of the resource, the number of peers in the network, and the number of peers that have the resource.
+
+\subsection{Redundancy}
+
+We may also combine error-checking codes with the replication as a mechanism for network-wide redundancy.
+Error-checking codes will allow us to avoid data loss more efficiently than replication would.
+
+\subsection{Further Evaluation}
+
+We will evaluate our system by running it on a network of peers, and simulate peer loss.
+We will use BitTorrent and IPFS as baselines for comparison.
+
+\section{Conclusion}
+
+\clearpage
+\appendix
+
+\section{Serialization Formats}
+
+\end{document}
