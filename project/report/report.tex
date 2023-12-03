@@ -28,26 +28,18 @@ However, in practice, at-risk files are often neglected, until the last few peer
 %
 % 3. The aim/goal/hypothesis (typically a single sentence, but can be longer)
 Our goal is to find ways to find ways to prevent the problem of data loss in peer-to-peer file sharing networks by cleverly triggering replication of at-risk files.
-%
-% 4. The proposed solution: how will you solve it?
-% TODO
-%
-% 5. How you will evaluate it?
-%
-We will evaluate our solution on the basis of its effectiveness at avoiding data loss, the storage overhead introduced from the replication, and the network overhead incurred by transferring file chunks for redundancy.
-%
-% 6. Anticipated Contributions
-We built a prototype of a distributed, content-addressible file system.
-%  that performs well under these metrics, offering a competitive alternative for long-term sharing and archival of important data.
+We built a prototype of a distributed, content-addressable file system.
+We evaluated our solution on the basis of its efficiency at transferring files over the network and at its effectiveness in reducing wastage of disk and network resources through content-addressing.
+Our prototype comes with a practical, user-friendly interface: the ability to mount the distributed file system as a file system directory.
+It also supports the assignment of user-friendly filenames of files within directories.
+% effectiveness at avoiding data loss, the storage overhead introduced from the replication, and the network overhead incurred by transferring file chunks for redundancy.
+% that performs well under these metrics, offering a competitive alternative for long-term sharing and archival of important data.
 
 \section{Background}
 
-% Detail a few specific elements of the problem that are necessary to understand the work.
-% This can be an expanded version of the problem as mentioned in the introductory paragraph.
-
-Our distributed filesystem will be optimized for archival use.
-In such a system, new data is frequently added, but existing data is rarely modified or deleted.
-For archival systems, data generally needs to be stored for long periods of time, much longer than the lifetime of the typical disk.
+We designed our distributed filesystem with archival use in mind.
+In such systems, new data is frequently added, but existing data is rarely modified or deleted.
+For archival systems, data generally needs to be stored for long periods of time—much longer than the lifetime of the typical disk.
 As a result, redundant copies of data need to be maintained in order to support data integrity in the event that a single disk fails.
 
 Making a filesystem distributed also introduces several unique problems.
@@ -63,10 +55,10 @@ We split file content into ``chunks''—pieces of data up to 4 MiB long.
 Each file is represented as an ordered sequence of chunks.
 Each directory is represented as an ordered sequence of name-object pairs, where the object is the identifier for either a file or a directory.
 We consider files, directories, and chunks to be \textit{resources}.
-Every resource is uniquely identified as an \textit{object}.
-An object is a SHA256 hash of a unique, deterministic serialization of a resource.
-At present, this serialization is done to JSON, but future versions may switch to more efficient formats like protobuf.
-At the moment, all resources on the filesystem are stored in-memory, though in the future this will likely be changed so that resources are stored persistently on a backing filesystem.
+Every resource is uniquely identified as an \textit{object}, which is a SHA256 hash of a unique, deterministic serialization of a resource.
+At present, resources are serialized to JSON, but future versions may switch to more efficient formats like protobuf.
+At the moment, all resources on the filesystem are stored in-memory; in the future this will likely be changed so that resources are stored persistently on a backing filesystem.
+To work around this limitation of our current prototype, applications may use memory-backed files.
 
 \subsection{Networking}
 
@@ -103,31 +95,31 @@ As a result, a set of directories to be added to the filesystem must be specifie
 \subsection{Peer Discovery}
 
 One important next step is to implement automatic peer discovery.
-For this, we will use a distributed hash table, similar to existing systems.
+For this, we will use a distributed hash table (DHT), similar to existing systems.
 % todo: elaborate on this^^
 % incl citations
 
 \subsection{Resource Peer Tracking}
 
-To efficiently detect resources that have a low number of peers, we will have each peer in the network track the number of peers that also have a given resource.
-When this number drops below a threshold, the peer will attempt to trigger network-wide replication of the resource.
-Our system will determine that threshold based on heuristics that factor in the size of the resource, the number of peers in the network, and the number of peers that have the resource.
+To efficiently detect resources that have a low number of peers, we will assign, to each resource, a peer responsible for tracking all peers that have that resource (``tracker peer'').
+When this number drops below a threshold, which we term the \textit{replication threshold}, the tracker peer will attempt to trigger network-wide replication of the resource.
+When the tracker peer for some resource itself goes offline, the DHT will pick a new tracker node for the resource.
+Our system will determine the replication threshold based on heuristics that account for the size of the resource, the number of peers in the network, and the number of peers that have the resource.
 
-\subsection{Redundancy}
+% \subsection{Redundancy}
 
-We may also combine error-checking codes with the replication as a mechanism for network-wide redundancy.
-Error-checking codes will allow us to avoid data loss more efficiently than replication would.
+% We may also combine error-checking codes with the replication as a mechanism for network-wide redundancy.
+% Error-checking codes will allow us to avoid data loss more efficiently than replication would.
 
 \subsection{Further Evaluation}
 
+Upon implementing a self-bootstrapping peer discovery process using a DHT, we will benchmark peer discovery times over a variety of network topologies.
+We will use graph structures modelled off of large scale networks like the world-wide web to simulate typical applications of our technology.
 We will evaluate our system by running it on a network of peers, and simulate peer loss.
 We will use BitTorrent and IPFS as baselines for comparison.
 
 \section{Conclusion}
 
-\clearpage
-\appendix
-
-\section{Serialization Formats}
+Our artifacts are available in our \href{TODO}{repository}.
 
 \end{document}
