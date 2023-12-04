@@ -1,3 +1,6 @@
 *.aux
 *.out
 *.pdf
+*.bbl
+*.blg
+*.run.xml

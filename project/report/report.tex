@@ -1,8 +1,10 @@
 \documentclass[twocolumn]{article}
 
 \usepackage{hyperref}
-\usepackage{lipsum}
+\usepackage{graphicx}
 \usepackage{../../usenix-2020-09}
+
+\bibliographystyle{ieeetr}
 
 \microtypecontext{spacing=nonfrench}
 
@@ -15,25 +17,17 @@
 
 \section{Introduction}
 
-% 1. Problem + why it's important
-There is often a need to publicly archive valuable data in a manner that is resistant to accidental data loss, owing to either system failure or maintainer neglect.
-% TODO: motivate further. tug at heartstrings.
-%
-% 2. Research context or gap in existing approaches
-One common approach to sharing data within a community with redundancy is to use peer-to-peer networks like BitTorrent.
+There is often a need to publicly archive valuable data in a manner that is resistant to accidental data loss, owing to either system failure or maintainer neglect.\cite{shi-2019}
+A common approach to sharing data within a community with redundancy is to use peer-to-peer networks like BitTorrent, which served over 7 million downloads in 2008.\cite{zhang-2011}
 However, BitTorrent-based file sharing suffers from risks of data loss when the number of peers sharing a torrent is low.
 BitTorrent has no mechanism for triggering the replication of ``at-risk files'', instead relying on the users of the network to coordinate this.
-However, in practice, at-risk files are often neglected, until the last few peers sharing the file disappear, at which point the file is lost.
-% TODO: talk about IPFS
-%
-% 3. The aim/goal/hypothesis (typically a single sentence, but can be longer)
+However, in practice, at-risk files are often neglected, until the last few peers sharing the file disappear, at which point the file is lost.\cite{zhang-2011}
+Another more recent peer-to-peer technology is IPFS\cite{trautwein-2022}, but IPFS doesn't have in-network mechanisms for handling resource disappearance either.
 Our goal is to find ways to find ways to prevent the problem of data loss in peer-to-peer file sharing networks by cleverly triggering replication of at-risk files.
 We built a prototype of a distributed, content-addressable file system.
-We evaluated our solution on the basis of its efficiency at transferring files over the network and at its effectiveness in reducing wastage of disk and network resources through content-addressing.
+We evaluated our solution on the basis of its efficiency at transferring files over the network and at its memory overhead.
 Our prototype comes with a practical, user-friendly interface: the ability to mount the distributed file system as a file system directory.
 It also supports the assignment of user-friendly filenames of files within directories.
-% effectiveness at avoiding data loss, the storage overhead introduced from the replication, and the network overhead incurred by transferring file chunks for redundancy.
-% that performs well under these metrics, offering a competitive alternative for long-term sharing and archival of important data.
 
 \section{Background}
 
@@ -48,9 +42,9 @@ The lack of a central node also complicates the process for maintaining redundan
 
 \section{Methods}
 
-\subsection{Content-Addressed Storage}
+\subsection{Content-Addressed Storage}\label{sec:cas}
 
-We use a Merkle tree to represent the filesystem hierarchy.
+We use a Merkle tree~\cite{merkle-1982} to represent the filesystem hierarchy.
 We split file content into ``chunks''—pieces of data up to 4 MiB long.
 Each file is represented as an ordered sequence of chunks.
 Each directory is represented as an ordered sequence of name-object pairs, where the object is the identifier for either a file or a directory.
@@ -67,7 +61,7 @@ When a peer $X$ successfully connects to another peer $Y$, $Y$ also automaticall
 When a peer $X$ attempts to access a resource that it does not have access to locally, it attempts to fetch it from one of its peers.
 Upon successfully finding a resource by querying another peer, peer $X$ caches said resource, saving a local copy.
 At the moment, networking uses a packet abstraction built on top of TCP, in order to avoid needing to reassemble resources larger than the maximum UDP packet size.
-Future versions may use a UDP-based system instead in order to improve performance. % todo: move to future work?
+Future versions may use a UDP-based system instead in order to improve performance.
 
 \subsection{Interface}
 
@@ -81,14 +75,34 @@ The FUSE mount is read-only, because modifying a file or directory would result 
 As a result, a set of directories to be added to the filesystem must be specified using a compile-time flag.
 % todo: mention something about how it would eventually be good to allow files/peers to be added after start
 
-% What will you need to accomplish your goal?
-
 \section{Evaluation}
 
-\subsection{Connection Time}
 \subsection{Memory Usage}
-\subsection{Deduplication Extent}
+
+As mentioned in Section~\ref{sec:cas}, our prototype currently stores file data in memory.
+However, we include some measurements of our memory use for the sake of completeness.
+
+We used a test dataset consisting a total of 1116 files, totalling 192 MB.\@
+Ten of these files were nested within directories at a depth of 10.
+The dataset contained a variety of file sizes, with 1010 100-byte files, 100 100 KB files, and 6 files ranging in size from 1 MB to 100 MB.
+Each file was filled with randomly generated binary data.
+Transferring this dataset using our prototype used 231 MB of memory and took 323.85 seconds.
+When transferring the same data using IPFS, the client process used 67 MB of memory and took 68.32 seconds.
+
 \subsection{Transfer Speed}
+
+We evaluated our prototype's file transfer speeds on files with various sizes.
+Each file was filled with randomly generated binary data.
+All 9 files were added to a directory, which was then added to the filesystem.
+When measuring the speed of our prototype, each file was requested by name under its parent directory, which was referenced by hash.
+When measuring the speed of IPFS, each file was requested by CID.\@
+Figure~\ref{fig:speed} shows the transfer speeds achieved by our prototype (``DFS'') and IPFS for single files with sizes ranging from 1 MB to 500 MB.\@
+
+\begin{figure}\label{fig:speed}
+	\caption{Data transfer speed as compared with IPFS's data transfer speed}
+
+	\includegraphics[width=\columnwidth]{data/speed.png}
+\end{figure}
 
 \section{Future Work}
 
@@ -96,8 +110,10 @@ As a result, a set of directories to be added to the filesystem must be specifie
 
 One important next step is to implement automatic peer discovery.
 For this, we will use a distributed hash table (DHT), similar to existing systems.
-% todo: elaborate on this^^
-% incl citations
+For instance, BitTorrent uses a variant of Kademlia~\cite{maymounkov-2002}.
+We could also use the DHT from Pastry~\cite{rowstron-2001}, together with its overlay and routing networking.
+Finally, Chord~\cite{stoica-2001}could also be an option for the DHT we use to enable peer discovery.
+We will conduct an evaluation of the strengths and weaknesses of these tools for our application to make this choice.
 
 \subsection{Resource Peer Tracking}
 
@@ -106,13 +122,6 @@ When this number drops below a threshold, which we term the \textit{replication 
 When the tracker peer for some resource itself goes offline, the DHT will pick a new tracker node for the resource.
 Our system will determine the replication threshold based on heuristics that account for the size of the resource, the number of peers in the network, and the number of peers that have the resource.
 
-% \subsection{Redundancy}
-
-% We may also combine error-checking codes with the replication as a mechanism for network-wide redundancy.
-% Error-checking codes will allow us to avoid data loss more efficiently than replication would.
-
-\subsection{Further Evaluation}
-
 Upon implementing a self-bootstrapping peer discovery process using a DHT, we will benchmark peer discovery times over a variety of network topologies.
 We will use graph structures modelled off of large scale networks like the world-wide web to simulate typical applications of our technology.
 We will evaluate our system by running it on a network of peers, and simulate peer loss.
@@ -120,6 +129,10 @@ We will use BitTorrent and IPFS as baselines for comparison.
 
 \section{Conclusion}
 
-Our artifacts are available in our \href{TODO}{repository}.
+We successfully built a prototype of a content-addressed file system with mechanisms for requesting and sharing files over the network.
+We also built a filesystem layer that allows users to try our prototype with ease.
+Our artifacts are available in our \href{https://github.com/shreyasminocha/comp517-project/tree/master/project/dfs}{repository}.
+
+\bibliography{report}
 
 \end{document}
